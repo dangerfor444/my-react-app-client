@@ -1,0 +1,86 @@
+body {
+  min-height: 100vh;
+  width: 100%;
+}
+
+.menu {
+  padding: 30px;
+  background: #F1AAAA;
+  display: flex;
+  justify-content: left;
+  gap: 50px;
+  align-items: center;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.sidenav{
+  width: 200px;
+  background: #F1AAAA;
+  position: absolute;
+  padding:  0px 30px;
+  left: -100%;
+  transition: all 0.3s;
+  min-height: 63vh;
+  margin-top: 15px;
+  border-radius: 7px;
+  box-shadow: 0 5px 10px rgba(255, 78, 78, 0.041);
+  
+  
+}
+
+.sidenav.active{
+  left: 0;
+}
+
+.logo{
+  margin-top: 10px;
+  width: 60px;
+}
+
+.login_user{
+  position: absolute;
+  margin-left: 30px;
+  margin-top: 30px;
+}
+
+ul {
+  padding: 0;
+}
+
+ul li {
+  list-style-type: none;
+  margin: 10px 0;
+}
+
+ul li a {
+  color:rgb(0, 0, 0);
+  text-decoration: none;
+  font-size: 16px;
+  display:  block;
+  padding: 10px 15px;
+  border-radius:  100px;
+  display: flex;
+  align-items: center;
+}
+
+ul li a:hover,
+ul li a:active {
+  background: #ff8e8e;
+}
+
+.active-link {
+  background: #ff8e8e;
+  border-radius: 100px;
+}
+
+ul li a svg {
+  margin-right: 10px;
+}
+
+.menu svg {
+  font-size: 40px;
+  cursor: pointer;
+}
+

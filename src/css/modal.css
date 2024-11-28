@@ -1,0 +1,62 @@
+.modal-overlay{
+  position: absolute;
+  top:115px;
+  left:1350px;
+  width: 500px;
+  height: 600px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+  backdrop-filter: blur(10px);
+  border:1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.modal-content{
+  margin: 20px;
+  text-align: center;
+  border-radius: 7px;
+}
+
+.modal-component{
+  border-radius: 7px;
+  border:1px solid rgb(241, 170, 170);
+  box-shadow: 0 4px 4px 0 rgb(241, 170, 170);
+  padding: 10px;
+  background-color: #ffffff;
+}
+
+.delete-button{
+  color: #fff;
+  background: #f56363;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin-top: 1.2rem;
+  margin-bottom: 1.2rem;
+  cursor: pointer;
+  transition: 0.4s;
+  width: 200px;
+  height: 30px;
+  border-radius: 20px;
+  border-width: 0px;
+}
+
+.productName{
+  margin-bottom: 20px;
+}
+
+.countProduct{
+  margin-top: 20px;
+}
+
+.cross-icon{
+  width: 20px;
+  height: 20px;
+  position: relative;
+  cursor: pointer;
+  margin-left: 450px;
+}
+
+.cross-icon:hover{
+  color: #ff0202;
+}

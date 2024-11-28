@@ -2,6 +2,11 @@
   text-align: center;
 }
 
+.productPage{
+  width: 100%;
+  background-image: url("../image/backgroungimage.png")
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -36,3 +41,5 @@
     transform: rotate(360deg);
   }
 }
+
+
