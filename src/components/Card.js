@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-
+import { useCart } from '../props/CartContext';
 
 const Card = ({ product, onOpenModal }) => {
 
   const [isInCart, setIsInCart] = useState(false);
-
+  const { addToCart } = useCart();
 
   const handleTitleClick = () => {
     window.scrollTo({
@@ -15,8 +15,8 @@ const Card = ({ product, onOpenModal }) => {
   };
 
   const handleAddToCart = () => {
-    setIsInCart(prevState => !prevState);
-    
+    addToCart(product);
+    setIsInCart(true);  
   };
 
   return (

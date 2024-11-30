@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { CartProvider } from './props/CartContext';
 import './App.css'
 
 
@@ -9,6 +10,7 @@ import ProductPage from './pages/productsPage';
 
 const App = () => {
   return (
+    <CartProvider>
     <Router>
       <div className="App">
         <Routes>  
@@ -18,6 +20,7 @@ const App = () => {
         </Routes>
       </div>
     </Router>
+    </CartProvider>
   );
 };
 
