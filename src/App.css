@@ -4,8 +4,13 @@
 
 .productPage{
   width: 100%;
-  background-image: url("../image/backgroungimage.png")
+  background-image: url("../image/backgroungimage.png");
 }
+
+.basketPage {
+  width: 100%;
+  background-image: url("../image/backgroungimage.png");
+  }
 
 .App-logo {
   height: 40vmin;
@@ -41,5 +46,6 @@
     transform: rotate(360deg);
   }
 }
+
 
 

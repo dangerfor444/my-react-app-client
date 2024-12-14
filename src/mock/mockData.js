@@ -13,7 +13,7 @@ const mockProducts = [
     price: 1500,
     brand: 'Товар 2',
     description: 'Описание товара 2',
-    count: 10,
+    count: 25,
   },
   {
     id: 3,
@@ -58,7 +58,7 @@ const mockProducts = [
   {
     id: 8,
     imageUrl: 'https://via.placeholder.com/150', 
-    price: 1500,
+    price: 15000,
     brand: 'Товар 8',
     description: 'Описание товара',
     count: 10,
@@ -74,7 +74,7 @@ const mockProducts = [
   {
     id: 10,
     imageUrl: 'https://via.placeholder.com/150', 
-    price: 2500,
+    price: 4500,
     brand: 'Товар 10',
     description: 'Описание товара',
     count: 10,
@@ -82,7 +82,7 @@ const mockProducts = [
   {
     id: 11,
     imageUrl: 'https://via.placeholder.com/150', 
-    price: 2500,
+    price: 6500,
     brand: 'Товар 11',
     description: 'Описание товара',
     count: 10,
@@ -98,7 +98,7 @@ const mockProducts = [
   {
     id: 13,
     imageUrl: 'https://via.placeholder.com/150', 
-    price: 1000,
+    price: 9000,
     brand: 'Товар 1',
     description: 'Описание товара 1',
     count: 10,
@@ -106,7 +106,7 @@ const mockProducts = [
   {
     id: 14,
     imageUrl: 'https://via.placeholder.com/150', 
-    price: 1500,
+    price: 500,
     brand: 'Товар 2',
     description: 'Описание товара 2',
     count: 10,

@@ -8,7 +8,7 @@
 }
 
 
-.container {
+.container_cart {
   max-width: 1140px;
   padding: 10px 15px;
   max-height: 900px;
@@ -159,6 +159,7 @@
   font-weight: 600;
   font-size: 18px;
   line-height: 1.3;
+  border-color: #f39393;
 }
 
 .count__input::-webkit-inner-spin-button,
@@ -169,11 +170,21 @@
 .count__controls {
   display: flex;
   flex-direction: column;
-  row-gap: 9px;
 }
 
 .count__controls img {
   display: block;
+}
+
+.count__up_down:hover{
+  color: #f54747;
+}
+
+
+.cart-footer__empty{
+  font-size: 25px;
+  width: 200px;
+  margin-left: 450px;
 }
 
 

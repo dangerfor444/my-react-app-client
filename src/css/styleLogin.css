@@ -1,0 +1,219 @@
+/* Import Google font - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+.bodyLogin{
+  min-height: 100vh;
+  width: 100%;
+  background: #E8BCBC;
+}
+.container{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  max-width: 430px;
+  width: 100%;
+  height: 450px;
+  background: #fff;
+  border-radius: 7px;
+  box-shadow: 0 5px 10px rgba(255, 78, 78, 0.041);
+  background-color: #E9D3D3;
+  text-align: center;
+}
+
+.reg{
+  height: 560px;
+}
+
+.container .form{
+  padding: 2rem;
+}
+.form header{
+
+  font-size: 2rem;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.message {
+  color: rgb(9, 156, 9);
+}
+ .form input{
+   height: 60px;
+   width: 100%;
+   padding: 0 15px;
+   font-size: 17px;
+   margin-bottom: 1.3rem;
+   border: 1px solid #ddd;
+   border-radius: 12px;
+   outline: none;
+ }
+ .form input:focus{
+   box-shadow: 0 1px 0 rgba(223, 88, 88, 0.5);
+   border-color: #F3563A;
+ }
+.form a{
+  font-size: 16px;
+  color: #009579;
+  text-decoration: none;
+}
+.form a:hover{
+  text-decoration: underline;
+}
+.form .button{
+  color: #fff;
+  background: #F3563A;
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin-top: 1.2rem;
+  margin-bottom: 1.2rem;
+  cursor: pointer;
+  transition: 0.4s;
+  width: 350px;
+  height: 50px;
+  border-radius: 20px;
+  border-width: 0px;
+}
+.form .button:hover{
+  background: #B04734;
+}
+
+.resendButton:disabled{
+  background: #E9D3D3;
+  opacity: 0.5;
+  border-width: 0px;
+}
+
+.resendButton:enabled{
+  background: #E9D3D3;
+  cursor: pointer;
+  border-radius: 10px;
+  border-width: 0px;
+  width: 150px;
+  height: 30px;
+}
+
+.resendButton:enabled:hover{
+  color: #B04734;
+}
+
+.resendContainer{
+  display: flex;
+  justify-content: center;
+  gap: 30px
+
+}
+
+.signup{
+  font-size: 17px;
+  text-align: center;
+
+}
+.signup label{
+  color: #FF0000;
+  cursor: pointer;
+  margin-left: 20px;
+}
+.signup label:hover{
+  text-decoration: underline;
+}
+
+.error{
+  text-align: center;
+  color: red;
+  position: absolute;
+  top: 10px;
+}
+
+.ellipse {
+  z-index: -1;
+  width: 200px;
+  height: 200px;
+  background-color: #F88888;
+  border-radius: 60%;
+  position: absolute;
+  left: -200px;
+  bottom: 250px;
+  animation: move-ellipse 1s ease-in-out forwards;
+}
+
+.ellipse2 {
+  z-index: -1;
+  width: 200px;
+  height: 200px;
+  background-color: #F88888;
+  border-radius: 60%;
+  position: absolute;
+  left: 430px;
+  bottom: 0px;
+  animation: move-ellipse2 1.5s ease-in-out forwards;
+}
+
+.ellipseRegister{
+  bottom: 360px;
+}
+
+.rectangle{
+  width: 200px;
+  height: 200px;
+  background-color: #E8BCBC;
+  position: absolute;
+  left: -200px;
+  bottom: 250px;
+}
+
+.recRegister{
+  bottom: 360px;
+}
+
+.rectangle2{
+  width: 200px;
+  height: 200px;
+  background-color: #E8BCBC;
+  position: absolute;
+  left: 430px;
+  bottom: 0px;
+}
+
+@keyframes move-ellipse {
+  0% {
+    
+    left: -200px;
+  }
+  100% {
+  
+    left: -100px;
+  }
+}
+
+@keyframes move-ellipse2 {
+  0% {
+    
+    left: 430px;
+  }
+  100% {
+  
+    left: 330px;
+  }
+}
+
+.pass-icon {
+  position: absolute;
+  right: 50px;
+  bottom: 249px;
+  cursor: pointer;
+}
+
+.sec {
+  right: 50px;
+  bottom: 169px;
+}
+
+.loginPass{
+  bottom: 220px;
+}
+
+
+

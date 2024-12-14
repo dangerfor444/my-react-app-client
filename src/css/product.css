@@ -174,3 +174,53 @@
   column-gap: 30px;
   margin: 40 auto;
 }
+
+.price-filters{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-right: 580px;
+  margin-top: 30px;
+}
+
+.price-filters input{
+  height: 30px;
+  width: 80px;
+  border-radius: 10px;
+  padding-left: 10px;
+  border-width: 0;
+}
+
+.input-container{
+  background-color: white;
+  border-radius: 10px;
+}
+
+.clear-icon{
+  cursor: pointer;
+}
+
+.clear-icon:hover{
+  color: red;
+}
+
+.price-filters .searchInput {
+  height: 40px;
+  width: 300px;
+  border-radius: 0px;
+  margin-right: 100px;
+  border-width: 0;
+  padding-left: 25px;
+}
+
+.search-container{
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.iconSearch{
+  position: absolute;
+  margin-left: 5px;
+}

@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCart } from '../props/CartContext';
 
 const Card = ({ product, onOpenModal }) => {
-
+  const { cartItems, addToCart, removeFromCart } = useCart();
   const [isInCart, setIsInCart] = useState(false);
-  const { addToCart } = useCart();
+
+  useEffect(() => {
+    const isAlreadyInCart = cartItems.some(item => item.id === product.id);
+    setIsInCart(isAlreadyInCart);
+  }, [cartItems, product.id]);
 
   const handleTitleClick = () => {
     window.scrollTo({
@@ -15,8 +19,15 @@ const Card = ({ product, onOpenModal }) => {
   };
 
   const handleAddToCart = () => {
-    addToCart(product);
-    setIsInCart(true);  
+    if (isInCart) {
+      removeFromCart(product.id); 
+      setIsInCart(false);
+    } else if (product.count > 0) {
+      addToCart({ ...product, quantity: 1 });
+      setIsInCart(true);
+    } else {
+      alert('Товар закончился');
+    }
   };
 
   return (
