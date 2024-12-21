@@ -19,16 +19,18 @@ const Card = ({ product, onOpenModal }) => {
   };
 
   const handleAddToCart = () => {
+    const existingItem = cartItems.find(item => item.id === product.id);
+    
     if (isInCart) {
-      removeFromCart(product.id); 
-      setIsInCart(false);
-    } else if (product.count > 0) {
-      addToCart({ ...product, quantity: 1 });
-      setIsInCart(true);
+        removeFromCart(product.id); 
+        setIsInCart(false);
+    } else if (product.availableCount > 0 && (!existingItem || (existingItem.count < product.availableCount))) {
+        addToCart({ ...product, quantity: 1 });
+        setIsInCart(true);
     } else {
-      alert('Товар закончился');
+        alert('Товар закончился');
     }
-  };
+};
 
   return (
 <div class="card glass">
@@ -43,7 +45,7 @@ const Card = ({ product, onOpenModal }) => {
     </div>
     <p class="card__title" 
     onClick={handleTitleClick}
-    >{product.brand}</p>
+    >{product.name}</p>
     <button 
     class={`card__add ${isInCart ? 'card__add--added' : ''}`}
     onClick={handleAddToCart}

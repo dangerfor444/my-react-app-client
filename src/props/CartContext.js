@@ -6,43 +6,143 @@ export const useCart = () => {
     return useContext(CartContext);
 };
 
+
 export const CartProvider = ({ children }) => {
-    const [cartItems, setCartItems] = useState(() => {
-        const savedCartItems = localStorage.getItem('cartItems');
-        return savedCartItems ? JSON.parse(savedCartItems) : [];
-    });
+    const [cartItems, setCartItems] = useState([]);
 
     useEffect(() => {
-        localStorage.setItem('cartItems', JSON.stringify(cartItems));
-    }, [cartItems]);
+        const fetchCartItems = async () => {
+            try {
+                const token = localStorage.getItem('authToken'); 
+                const response = await fetch('http://85.208.87.56/api/v1/basket', {
+                    method: 'GET', 
+                    headers: {
+                        'Content-Type': 'application/json', 
+                        'Authorization': `Bearer ${token}`, 
+                    },
+                });
 
-    const addToCart = (product) => {
+                if (!response.ok) {
+                    throw new Error(`Ошибка: ${response.status}`);
+                }
+                   
+                const data = await response.json();
+                console.log(data);
+                setCartItems(data.items);
+            } catch (error) {
+                console.error('Ошибка при получении товаров из корзины с сервера:', error);
+            }
+        };
+
+        fetchCartItems();
+    }, []);
+
+    const addToCart = async (product) => {
         setCartItems((prevItems) => {
             const itemExists = prevItems.find(item => item.id === product.id);
             if (itemExists) {
                 return prevItems.map(item => 
                     item.id === product.id 
-                    ? { ...item, quantity: item.quantity + 1 } 
+                    ? { ...item, count: item.count + 1 } 
                     : item
                 );
             }
-            return [...prevItems, { ...product, quantity: 1 }]; 
+            return [...prevItems, { ...product, count: 1 }]; 
         });
-    };
 
-    const removeFromCart = (id) => {
-        setCartItems((prevItems) => prevItems.filter(item => item.id !== id));
-    };
+        try {
+            const token = localStorage.getItem('authToken'); 
 
-    const updateQuantity = (id, newValue) => {
-        const parsedValue = parseInt(newValue, 10);
-        setCartItems(cartItems.map(item => {
-            if (item.id === id) {               
-                const newQuantity = Math.max(1, Math.min(parsedValue, item.count)); 
-                return { ...item, quantity: newQuantity };
+            console.log('Добавление товара в корзину:', product.id);
+
+            const requestBody = {
+                goodId: product.id
+            };
+    
+            const response = await fetch(`http://85.208.87.56/api/v1/basket`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify(requestBody),
+            });
+    
+            if (!response.ok) {
+                throw new Error(`Ошибка: ${response.status} ${response.statusText}`);
             }
-            return item; 
-        }));
+            
+        } catch (error) {
+            console.error('Ошибка при добавлении товара в корзину на сервере:', error);
+        }
+    };
+
+    const removeFromCart = async (basketItemId) => {
+
+        setCartItems((prevItems) => prevItems.filter(item => item.id !== basketItemId));
+
+        try {
+            const token = localStorage.getItem('authToken'); 
+
+            console.log('Удаление товара из корзины:', basketItemId);
+    
+            const response = await fetch(`http://85.208.87.56/api/v1/basket/${basketItemId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Ошибка при удалении товара: ${response.status} ${response.statusText}`);
+            }
+
+        } catch (error) {
+            console.error('Ошибка при удалении товара из корзины на сервере:', error);
+        }
+    };
+
+    const updateQuantity = async (id, newValue) => {
+        const parsedValue = parseInt(newValue, 10);
+        
+        if (isNaN(parsedValue) || parsedValue < 1) {
+            return; 
+        }
+    
+         setCartItems(prevItems => 
+            prevItems.map(item => {
+                if (item.id === id) {               
+                    return { ...item, count: parsedValue }; 
+                }
+                return item; 
+            })
+        );
+ 
+        const requestBody = {
+            goodId: id,
+            count: parsedValue 
+        };
+
+        try {
+            const token = localStorage.getItem('authToken'); 
+ 
+            const response = await fetch(`http://85.208.87.56/api/v1/basket`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify(requestBody),
+            });
+ 
+            if (!response.ok) {
+                throw new Error(`Ошибка: ${response.status} ${response.statusText}`);
+            }
+ 
+        } catch (error) {
+            console.error('Ошибка при обновлении количества товара на сервере:', error);
+        }
     };
 
     return (

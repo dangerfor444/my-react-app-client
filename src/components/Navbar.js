@@ -12,16 +12,16 @@ const Navbar = ({show}) => {
 
   return (
         <div class = {show ? 'sidenav active' : 'sidenav'} >
-          <ul>
-            <li class={isActive('/NewsPage') ? 'active-link' : ''}>
-             <a href = '/NewsPage'><FaRegNewspaper />Новости</a>
-            </li>          
+          <ul>     
             <li class={isActive('/ProductPage') ? 'active-link' : ''}>
               <a href='/ProductPage'><FaBoxOpen />Товары</a>
             </li>           
             <li class={isActive('/BasketPage') ? 'active-link' : ''}>
               <a href='/BasketPage'><SlBasket/>Корзина</a>
             </li>
+            <li class={isActive('/OrderPage') ? 'active-link' : ''}>
+             <a href = '/OrderPage'><FaRegNewspaper />Заказы</a>
+            </li>         
             <li class = "logout">
              <a href = '/'><CiLogout />Выйти</a>
             </li>

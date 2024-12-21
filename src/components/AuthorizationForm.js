@@ -6,7 +6,7 @@ import ReactCodeInput from 'react-code-input';
 const AuthorizationForm = ({ email, setEmail, handleSendCode , code, setCode, isCodeSent, buttonText, isTimerActive, timer, sendCode }) => {
 
   return (
-  <form onSubmit={handleSendCode}>
+  <form className = "form-auth" onSubmit={handleSendCode}>
   <input 
     type="email" 
     placeholder="Email" 
@@ -19,8 +19,8 @@ const AuthorizationForm = ({ email, setEmail, handleSendCode , code, setCode, is
     name="code" 
     value={code}
     inputStyle={{
-        width: '40px', 
-        height: '60px', 
+        width: '20px', 
+        height: '40px', 
         fontSize: '15px', 
         textAlign: 'center',
         outline: 'none',

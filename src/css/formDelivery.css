@@ -30,6 +30,17 @@
   outline: none
 }
 
+.form-group select {
+  width: 250px;
+  border-radius: 10px;
+  font-size: 16px;
+  padding: 0.375rem 0.75rem;
+  border-radius: 7px;
+  border:1px solid rgb(241, 170, 170);
+  box-shadow: 0 4px 4px 0 rgb(241, 170, 170);
+  outline: none
+}
+
 .confirm-order{
   color: #fff;
   background: #f56363;

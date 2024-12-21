@@ -4,18 +4,18 @@ import { GiHamburgerMenu } from "react-icons/gi";
 
 
 
-const NewsPage = () => {
+const OrderPage = () => {
   const [ showNav, setShowNav] = useState(false);
 
   return (
     <body class = "productPage" onMouseEnter={() => setShowNav(true)}>
       <header class = "menu" >
       <GiHamburgerMenu onClick={() => setShowNav(!showNav)} />
-        <h1>Новости</h1>
+        <h1>Мои заказы</h1>
         </header>
         <Navbar show = {showNav}/>              
     </body>
   );
 }
 
-export default NewsPage;
+export default OrderPage;

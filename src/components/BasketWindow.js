@@ -6,11 +6,12 @@ import { useCart } from '../props/CartContext';
 import '../css/basketStyle.css'
 
 const BasketWindow = () => {
-    const { cartItems, removeFromCart, updateQuantity } = useCart();
+  const { cartItems, removeFromCart, updateQuantity } = useCart();
 
-    const totalQuantity = cartItems.reduce((a, b) => a + b.quantity, 0);
-    const totalPrice = cartItems.reduce((a, b) => a + (b.price * b.quantity), 0);
-  
+
+  const totalQuantity = cartItems.reduce((a, b) => a + (b.count || 0), 0);
+  const totalPrice = cartItems.reduce((a, b) => a + ((b.price || 0) * (b.count || 0)), 0);
+
     return (
       <section className="section-cart">
         <div className="section-cart__body">
@@ -25,9 +26,9 @@ const BasketWindow = () => {
               {cartItems.map((item) => (
                 <section key={item.id} className="product">
                   <div className="product__img">
-                    <img src={item.imageUrl} alt={item.brand} />
+                    <img src={item.imageUrl} alt={item.name} />
                   </div>
-                  <div className="product__title">{item.brand}</div>
+                  <div className="product__title">{item.name}</div>
                   <div className="product__count">
                     <div className="count">
                       <div className="count__box">
@@ -35,20 +36,20 @@ const BasketWindow = () => {
                           type="number"
                           className="count__input"
                           min="1"
-                          max={item.count}
-                          value={item.quantity}
+                          max={item.availableCount}
+                          value={item.count || 1}
                           onChange={(e) => updateQuantity(item.id, e.target.value)}
                         />
                       </div>
                       <div className="count__controls">
-                          <IoIosArrowUp onClick={() => updateQuantity(item.id, Math.min(item.count, item.quantity + 1))} className="count__up_down"/>
-                          <IoIosArrowDown onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))} className="count__up_down"/>
+                          <IoIosArrowUp onClick={() => updateQuantity(item.id, item.count + 1)} className="count__up_down"/>
+                          <IoIosArrowDown onClick={() => updateQuantity(item.id, Math.max(1, item.count - 1))} className="count__up_down"/>
                       </div>
                     </div>
                   </div>
-                  <div className="product__price">{item.price * item.quantity} ₽</div>
+                  <div className="product__price">{item.price * item.count} ₽</div>
                   <div className="product__controls">
-                    <RxCross2 onClick={() => removeFromCart(item.id)} />
+                    <RxCross2 onClick={() => removeFromCart(item.id)} className="remove-from-basket"/>
                   </div>
                 </section>
               ))}

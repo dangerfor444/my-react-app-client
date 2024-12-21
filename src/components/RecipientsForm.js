@@ -1,12 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../css/formDelivery.css'
 import { useCart } from '../props/CartContext';
-import sdekLogo from '../components/cdek-logo.png'
-import russiaLogo from '../components/russia.png'
-import dpdLogo from '../components/dpd-logo.png'
-import sbpLogo from '../imageLogo/SBP.svg'
-import sberLogo from '../imageLogo/SberPay.png'
-import tinkoffLogo from '../imageLogo/tinkoff.png'
+
 
 const RecipientsForm = () => {
 
@@ -15,13 +10,47 @@ const RecipientsForm = () => {
 
   const [selectedDelivery, setSelectedDelivery] = useState(''); 
   const [selectedPayment, setSelectedPayment] = useState(''); 
+  const [deliveryMethods, setDeliveryMethods] = useState([]);
+  const [paymentMethods, setPaymentMethods] = useState([]);
 
-  const handleDeliverySelection = (option) => {
-    setSelectedDelivery(option);
+  useEffect(() => {
+    const fetchDeliveryMethods = async () => {
+      try {
+        const response = await fetch('http://85.208.87.56/api/v1/delivery-methods');
+        if (!response.ok) {
+          throw new Error('Ошибка');
+        }
+        const data = await response.json();
+        setDeliveryMethods(data);
+      } catch (error) {
+        console.error('Ошибка:', error);
+      }
+    };
+
+    fetchDeliveryMethods();
+  }, []);
+
+  useEffect(() => {
+    const fetchPaymentMethods = async () => {
+      try {
+        const response = await fetch('http://85.208.87.56/api/v1/payment-methods');
+        const data = await response.json();
+        setPaymentMethods(data);
+      } catch (error) {
+        console.error('Ошибка:', error);
+      }
+    };
+    fetchPaymentMethods();
+  }, []);
+
+  const handleDeliverySelection = (e) => {
+    const selectedOption = e.target.value;
+    setSelectedDelivery(selectedOption);
   };
 
-  const handlePaymentSelection = (option) => {
-    setSelectedPayment(option);
+  const handlePaymentSelection = (e) => {
+    const selectedOption = e.target.value;
+    setSelectedPayment(selectedOption);
   };
 
   const initialFormData = {
@@ -31,8 +60,6 @@ const RecipientsForm = () => {
     address: '',
     zipCode: '',
     phone: '',
-    deliveryMethod: '',
-    paymentMethod: '',
   };
 
   const [formData, setFormData] = useState(initialFormData);
@@ -54,18 +81,46 @@ const RecipientsForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (totalQuantity === 0) { 
       alert('Ваша корзина пуста. Добавьте товары, чтобы завершить оформление заказа.'); 
       return; 
     }
-    console.log('Данные формы:', formData);
 
-    setFormData(initialFormData);
-    setSelectedDelivery('');
-    setSelectedPayment('');
+    const payload = {
+      ...formData,
+  };
+
+  console.log('Отправляемые данные:', payload);
+    let recipientId = 0;
+    try {
+      const token = localStorage.getItem('authToken'); 
+      const response = await fetch('http://85.208.87.56/api/v1/recipients', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error('Status ' + response.status);
+      }
+
+      const recipientData = await response.json();
+      recipientId = recipientData.id;
+      console.log(recipientId)
+      console.log(recipientData)
+
+      setFormData(initialFormData);
+      setSelectedDelivery('');
+      setSelectedPayment('');
+    } catch (error) {
+      console.error('Ошибка при отправке данных:', error);
+    }
   };
 
   return (
@@ -138,53 +193,39 @@ const RecipientsForm = () => {
       required />
     </div>
 
-    <fieldset>
-        <legend>Способ доставки</legend>
-        <div className="form__radios">
-          {['sdek', 'russia', 'dpd'].map(method => (
-            <div
-              key={method}
-              className={`form__radio ${selectedDelivery === method ? 'selected' : ''}`}
-              onClick={() => handleDeliverySelection(method)}
-            >
-              <img src={method === 'sdek' ? sdekLogo : method === 'russia' ? russiaLogo : dpdLogo} alt={method} className="icon-delivery" />
-              <input
-                type="radio"
-                id={method}
-                name="delivery-method"
-                value={method}
-                checked={selectedDelivery === method}
-                readOnly
-                style={{ display: 'none' }}
-              />
-            </div>
+    <div className="form-group">
+        <label>Способ доставки:</label>
+        <select
+          id="delivery-method"
+          value={selectedDelivery}
+          onChange={handleDeliverySelection}
+          required
+        >
+          <option value="" disabled={selectedDelivery}>Выберите способ доставки</option>
+          {deliveryMethods.map(method => (
+            <option key={method.id} value={method.title}>
+              {method.title}
+            </option>
           ))}
-        </div>
-      </fieldset>
+        </select>
+      </div>
 
-      <fieldset>
-        <legend>Способ оплаты</legend>
-        <div className="form__radios">
-          {['sbp', 'sber', 'tinkoff'].map(method => (
-            <div
-              key={method}
-              className={`form__radio ${selectedPayment === method ? 'selected' : ''}`}
-              onClick={() => handlePaymentSelection(method)}
-            >
-              <img src={method === 'sbp' ? sbpLogo : method === 'sber' ? sberLogo : tinkoffLogo} alt={method} className="icon-delivery" />
-              <input
-                type="radio"
-                id={method}
-                name="payment-method"
-                value={method}
-                checked={selectedPayment === method}
-                readOnly
-                style={{ display: 'none' }}
-              />
-            </div>
+      <div className="form-group">
+        <label>Способ оплаты:</label>
+        <select
+          id="payment-method"
+          value={selectedPayment}
+          onChange={handlePaymentSelection}
+          required
+        >
+          <option value="" disabled={selectedPayment}>Выберите способ оплаты</option>
+          {paymentMethods.map(method => (
+            <option key={method.id} value={method.title}>
+              {method.title}
+            </option>
           ))}
-        </div>
-      </fieldset>
+        </select>
+      </div>
     <button class = "confirm-order" type="submit">Подтвердить заказ</button>
   </form>
   );

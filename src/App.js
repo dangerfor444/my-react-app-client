@@ -5,7 +5,7 @@ import './App.css'
 
 
 import BasketPage from './pages/basketPage';
-import NewsPage from './pages/newsPage';
+import OrderPage from './pages/ordersPage';
 import ProductPage from './pages/productsPage';
 import AuthorizationPage from './pages/AuthorizationPage';
 
@@ -17,7 +17,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<AuthorizationPage  />} />  
           <Route path="/ProductPage" element={<ProductPage />} />   
-          <Route path="/NewsPage" element={<NewsPage />} />     
+          <Route path="/OrderPage" element={<OrderPage />} />     
           <Route path="/BasketPage" element={<BasketPage />} />           
         </Routes>
       </div>

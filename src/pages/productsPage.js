@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoSearchOutline } from "react-icons/io5";
 import '../css/product.css'
 
-import mockProducts from '../mock/mockData';
+
 import Card from '../components/Card';
 import Modal from '../components/Modal';
 
@@ -16,6 +16,7 @@ const ProductPage = () => {
   const [minPrice, setMinPrice] = useState(''); 
   const [maxPrice, setMaxPrice] = useState(''); 
   const [searchQuery, setSearchQuery] = useState('');
+  const [products, setProducts] = useState([]);
 
   const handleOpenModal = (product) => {
     setSelectedProduct(product);
@@ -27,11 +28,36 @@ const ProductPage = () => {
     setSelectedProduct(null);
   };
 
-  const filteredProducts = mockProducts.filter(product => {
+  useEffect(() => {
+    const fetchProducts = async () => {
+        try {
+            const response = await fetch('http://85.208.87.56/api/v1/goods');
+            if (!response.ok) {
+                throw new Error('Ошибка при загрузке продуктов: ' + response.statusText);
+            }
+
+            const data = await response.json();
+            //console.log('Полученные товары:', data)
+            setProducts(data.map(item => ({
+                id: item.id,
+                name: item.name,
+                description: item.description,
+                price: item.price,
+                availableCount: item.count,
+              })));
+        } catch (error) {
+            console.error('Ошибка:', error);
+        }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const filteredProducts = products.filter(product => {
     const priceMatch = (minPrice === '' || product.price >= Number(minPrice)) &&
                        (maxPrice === '' || product.price <= Number(maxPrice));
   
-    const nameMatch = searchQuery === '' || (product.brand && product.brand.toLowerCase().includes(searchQuery.toLowerCase()));
+    const nameMatch = searchQuery === '' || (product.name && product.name.toLowerCase().includes(searchQuery.toLowerCase()));
   
     return priceMatch && nameMatch;
   });
