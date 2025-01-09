@@ -11,7 +11,7 @@ const Modal = ({ isOpen, product, onClose}) => {
       <RxCross2 className="cross-icon" onClick={onClose}/>
         <h2 class = "modal-component productName">{product.name}</h2>
         <p class = "modal-component">{product.description}</p>
-        <p class = "modal-component countProduct"><strong>Количество:</strong> {product.availableCount}</p>
+        <p class = "modal-component countProduct"><strong>Количество:</strong> {product.count}</p>
       </div>
     </div>
   );

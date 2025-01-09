@@ -17,6 +17,7 @@ const ProductPage = () => {
   const [maxPrice, setMaxPrice] = useState(''); 
   const [searchQuery, setSearchQuery] = useState('');
   const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); 
 
   const handleOpenModal = (product) => {
     setSelectedProduct(product);
@@ -31,23 +32,87 @@ const ProductPage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
         try {
-            const response = await fetch('http://85.208.87.56/api/v1/goods');
+          const token = localStorage.getItem('authToken');
+            const response = await fetch('http://85.208.87.56/api/v1/goods', {
+              method: 'GET',
+              headers: {
+                  'Authorization': `Bearer ${token}`,
+              }
+          });
             if (!response.ok) {
                 throw new Error('Ошибка при загрузке продуктов: ' + response.statusText);
             }
 
             const data = await response.json();
-            //console.log('Полученные товары:', data)
-            setProducts(data.map(item => ({
+            console.log('Полученные товары:', data)
+
+
+            const productsWithImages = await Promise.all(data.map(async (item) => {
+              const imageUrl = await fetchProductImages(item.id);
+              return {
                 id: item.id,
                 name: item.name,
                 description: item.description,
                 price: item.price,
-                availableCount: item.count,
-              })));
+                count: item.count,
+                image:  imageUrl || null,
+              };
+            }));
+    
+
+          setProducts(productsWithImages);
+
         } catch (error) {
             console.error('Ошибка:', error);
+        }  finally {
+          setIsLoading(false); 
         }
+    };
+
+    const fetchProductImages = async (productId) => {
+      const token = localStorage.getItem('authToken');
+    
+      const fetchWithRetry = async (url, options, retries = 50) => {
+        try {
+          const response = await fetch(url, options);
+          if (!response.ok) {
+            throw new Error('Сетевая ошибка: ' + response.statusText);
+          }
+          return response;
+        } catch (error) {
+          if (retries > 0) {
+            return fetchWithRetry(url, options, retries - 1);
+          }
+          throw error;
+        }
+      };
+    
+      try {
+        const response = await fetchWithRetry(`http://85.208.87.56/api/v1/goods/${productId}/images`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+    
+        const imageIds = await response.json();
+        if (imageIds.length > 0) {
+          const imageId = imageIds[0];
+          const urlResponse = await fetchWithRetry(`http://85.208.87.56/api/v1/image/${imageId}`, {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+            },
+          });
+    
+          const imageUrl = await urlResponse.text();
+          return imageUrl;
+        }
+        return null; 
+      } catch (error) {
+        console.error('Ошибка при получении изображения:', error);
+        return null; 
+      }
     };
 
     fetchProducts();
@@ -108,13 +173,17 @@ const ProductPage = () => {
       </div>
 
         <div className="cont container_cards">
-        {filteredProducts.map((product) => (
-          <Card 
-            key={product.id} 
-            product={product}
-            onOpenModal={handleOpenModal}
-          />
-        ))}
+        {isLoading ? ( 
+          <p>Загрузка...</p>
+        ) : (
+          filteredProducts.map((product) => (       
+            <Card 
+              key={product.id} 
+              product={product}
+              onOpenModal={handleOpenModal}
+            />           
+          ))
+        )}
       </div>  
       <Modal 
         isOpen={isModalOpen} 

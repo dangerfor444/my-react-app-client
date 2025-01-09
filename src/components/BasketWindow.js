@@ -26,7 +26,7 @@ const BasketWindow = () => {
               {cartItems.map((item) => (
                 <section key={item.id} className="product">
                   <div className="product__img">
-                    <img src={item.imageUrl} alt={item.name} />
+                    <img src={item.image} alt={item.name} />
                   </div>
                   <div className="product__title">{item.name}</div>
                   <div className="product__count">

@@ -108,6 +108,15 @@
 
 .product__img {
   justify-self: center;
+  width: 100px; 
+  height: auto; 
+  overflow: hidden; 
+}
+
+.product__img img{
+  width: 100%; 
+    height: auto; 
+    object-fit: cover;
 }
 @media (max-width: 600px) {
   .product__img {

@@ -28,7 +28,15 @@ export const CartProvider = ({ children }) => {
                    
                 const data = await response.json();
                 console.log(data);
-                setCartItems(data.items);
+                const itemsWithImages = await Promise.all(data.items.map(async item => {
+                    const imageUrl = await fetchProductImages(item.id); 
+                    return {
+                        ...item,
+                        image: imageUrl
+                    };
+                }));
+
+                setCartItems(itemsWithImages);
             } catch (error) {
                 console.error('Ошибка при получении товаров из корзины с сервера:', error);
             }
@@ -36,6 +44,36 @@ export const CartProvider = ({ children }) => {
 
         fetchCartItems();
     }, []);
+
+    
+    const fetchProductImages = async (productId) => {
+        const token = localStorage.getItem('authToken');
+        try {
+            const response = await fetch(`http://85.208.87.56/api/v1/goods/${productId}/images`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+
+            const imageIds = await response.json();
+            if (imageIds.length > 0) {
+                const imageId = imageIds[0];
+                const urlResponse = await fetch(`http://85.208.87.56/api/v1/image/${imageId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+
+                return await urlResponse.text();
+            }
+            return null;
+        } catch (error) {
+            console.error('Ошибка при получении изображения:', error);
+            return null;
+        }
+    };
 
     const addToCart = async (product) => {
         setCartItems((prevItems) => {

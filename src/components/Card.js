@@ -24,7 +24,7 @@ const Card = ({ product, onOpenModal }) => {
     if (isInCart) {
         removeFromCart(product.id); 
         setIsInCart(false);
-    } else if (product.availableCount > 0 && (!existingItem || (existingItem.count < product.availableCount))) {
+    } else if (product.count > 0 && (!existingItem || (existingItem.count < product.count))) {
         addToCart({ ...product, quantity: 1 });
         setIsInCart(true);
     } else {
@@ -36,7 +36,7 @@ const Card = ({ product, onOpenModal }) => {
 <div class="card glass">
   <div class="card__top">
     <div class="card__image">
-      <img src={product.imageUrl} alt="title" onClick={handleTitleClick}/>
+      <img src={product.image} alt={product.name} onClick={handleTitleClick}/>
     </div>
   </div>
   <div class="card__bottom">

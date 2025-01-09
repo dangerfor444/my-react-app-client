@@ -43,6 +43,26 @@ const RecipientsForm = () => {
     fetchPaymentMethods();
   }, []);
 
+  useEffect(() => {
+    const fetchRecipientsMethods = async () => {
+      const token = localStorage.getItem('authToken'); 
+      try {
+        const response = await fetch('http://85.208.87.56/api/v1/recipients', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        const data = await response.json();
+        console.log(data)
+      } catch (error) {
+        console.error('Ошибка:', error);
+      }
+    };
+    fetchRecipientsMethods();
+  }, []);
+
   const handleDeliverySelection = (e) => {
     const selectedOption = e.target.value;
     setSelectedDelivery(selectedOption);
@@ -93,8 +113,8 @@ const RecipientsForm = () => {
       ...formData,
   };
 
-  console.log('Отправляемые данные:', payload);
-    let recipientId = 0;
+  //console.log('Отправляемые данные:', payload);
+
     try {
       const token = localStorage.getItem('authToken'); 
       const response = await fetch('http://85.208.87.56/api/v1/recipients', {
@@ -110,14 +130,33 @@ const RecipientsForm = () => {
         throw new Error('Status ' + response.status);
       }
 
-      const recipientData = await response.json();
-      recipientId = recipientData.id;
-      console.log(recipientId)
-      console.log(recipientData)
+      const recipientId = await response.json();
 
+
+      const checkoutPayload = {
+        deliveryMethodId: deliveryMethods.find(method => method.title === selectedDelivery)?.id,
+        paymentMethodId: paymentMethods.find(method => method.title === selectedPayment)?.id,
+        recipientId: recipientId,
+      };
+      console.log(checkoutPayload)
+
+      const checkoutResponse = await fetch('http://85.208.87.56/api/v1/checkouts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(checkoutPayload),
+      });
+
+      if (!checkoutResponse.ok) {
+        throw new Error('Ошибка при оформлении заказа, статус: ' + checkoutResponse.status);
+      }
+   
       setFormData(initialFormData);
       setSelectedDelivery('');
       setSelectedPayment('');
+      window.location.reload();
     } catch (error) {
       console.error('Ошибка при отправке данных:', error);
     }

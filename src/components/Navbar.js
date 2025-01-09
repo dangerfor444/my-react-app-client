@@ -20,7 +20,7 @@ const Navbar = ({show}) => {
               <a href='/BasketPage'><SlBasket/>Корзина</a>
             </li>
             <li class={isActive('/OrderPage') ? 'active-link' : ''}>
-             <a href = '/OrderPage'><FaRegNewspaper />Заказы</a>
+             <a href = '/OrderPage'><FaRegNewspaper />Мои заказы</a>
             </li>         
             <li class = "logout">
              <a href = '/'><CiLogout />Выйти</a>

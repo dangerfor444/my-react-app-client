@@ -1,0 +1,113 @@
+.order-card {
+  width: 700px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border:1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  padding: 30px;
+  overflow: hidden; 
+  transition: max-height 0.3s ease, padding 0.3s ease; 
+  max-height: 300px; 
+}
+
+.order-card.open {
+  max-height: 1000px; 
+}
+
+.orders-list{
+  margin-top: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 300px;
+  gap: 20px;
+}
+
+.product-image {
+  width: 100%; 
+  max-width: 200px; 
+  height: auto; 
+  margin-top: 10px; 
+}
+
+.product-info {
+}
+
+.product-info ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap:15px;
+}
+
+.product-info li {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  border-radius: 5px; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  transition: transform 0.2s; 
+  padding: 10px;
+}
+
+.item-count{
+  font-weight: bold; 
+}
+
+.product-info li:hover {
+  transform: scale(1.02); 
+}
+
+.toggle-button{
+  margin-top: 5px;
+  background: none; 
+  border: none; 
+  color: inherit; 
+  padding: 0; 
+  cursor: pointer; 
+}
+
+.header-items {
+  display: flex;
+  justify-content: space-between; 
+}
+
+.header-items button {
+  background: none; 
+  border: none; 
+  color: inherit; 
+  padding: 0; 
+  cursor: pointer; 
+}
+
+.order-details {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border:1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  margin: 20px;
+  padding: 15px;
+  border: 1px solid #f39393;
+  border-radius: 8px;
+  background-color: #f39393;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr; 
+  gap: 15px; 
+}
+
+.grid-item {
+  padding: 10px;
+  background-color: #f8b7b7; 
+  border: 1px solid #f78d8d; 
+  border-radius: 4px; 
+}
+
+.grid-item:hover{
+  transform: scale(1.02); 
+}
